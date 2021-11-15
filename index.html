@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>AssemblyScript isPrime demo</title>
+</head>
+
+<body>
+    <form id="prime-checker">
+        <label for="number">Enter a number to check if it is prime:</label>
+        <input name="number" type="number" />
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        (async () => {
+            const importObject = {
+                env: {
+                    abort(_msg, _file, line, column) {
+                        console.error("abort called at index.ts:" + line + ":" + column);
+                    }
+                }
+            };
+            const module = await WebAssembly.instantiateStreaming(
+                fetch("build/optimized.wasm"),
+                importObject
+            );
+            const add = module.instance.exports.add;
+            console.log("WebAssembly module loaded");
+            console.log(module);
+            console.log(add(33, 11));
+        })();
+    </script>
+</body>
+
+</html>
