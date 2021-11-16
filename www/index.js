@@ -83,7 +83,7 @@ function updateData(data) {
   const newCircles = circle
     .enter()
     .append("circle")
-    .style("fill", "white")
+    .style("fill", "#f9ab02")
     .attr("r", 0)
     .attr("cx", function (d) {
       return x(d.x);
@@ -94,7 +94,7 @@ function updateData(data) {
 
     .transition()
     .duration(250)
-    .attr("r", 2);
+    .attr("r", 1.5);
 
   //newCircles.merge(circle);
 }

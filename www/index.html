@@ -39,12 +39,20 @@
       window.onload = function () {
         createPlot();
         data = [];
-        for (let i = 0; i < 40; i++) {
-          const iterations = Math.round(1 + i ** 4);
-          const time = measureCalculationTime("JavaScript", iterations);
-          data.push({ x: iterations, y: time });
-          updateData(data);
+
+        function loop(i) {
+          if (i < 40) {
+            setTimeout(() => {
+              const iterations = Math.round(1 + i ** 4);
+              const time = measureCalculationTime("JavaScript", iterations);
+              data.push({ x: iterations, y: time });
+              updateData(data);
+              loop(i + 1);
+            }, 100);
+          }
         }
+
+        loop(0);
       };
     </script>
   </body>
