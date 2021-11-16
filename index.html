@@ -18,20 +18,26 @@
     <script>
         (async () => {
             const importObject = {
+                module: {},
                 env: {
                     abort(_msg, _file, line, column) {
                         console.error("abort called at index.ts:" + line + ":" + column);
                     }
                 }
             };
+
             const module = await WebAssembly.instantiateStreaming(
                 fetch("build/optimized.wasm"),
                 importObject
             );
             const add = module.instance.exports.add;
-            console.log("WebAssembly module loaded");
+            const monteCarloPi = module.instance.exports.monteCarloPi;
+            console.log("WebAssembly module loaded: " + add(3, 7));
             console.log(module);
-            console.log(add(33, 11));
+            setTimeout(() => {
+                console.log("Calculate Monte Carlo pi");
+                console.log(monteCarloPi(BigInt(500000000)));
+            }, 2000)
         })();
     </script>
 </body>
