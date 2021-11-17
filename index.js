@@ -75,14 +75,20 @@ function createPlot() {
     .attr("transform", "translate(0, 450)")
     .call(xAxis)
     .style("stroke", "white")
-    .style("fill", "white");
+    .style("fill", "white")
+    .append("text")
+    .attr("transform", "translate(480, 6.5)")
+    .text("iterations");
 
   svg
     .append("g")
     .attr("transform", "translate(10 , 0)")
     .call(yAxis)
     .style("stroke", "white")
-    .style("fill", "white");
+    .style("fill", "white")
+    .append("text")
+    .attr("transform", "rotate(270) translate(0, 0)")
+    .text("ms");
 
   svg.append("path");
   //svg.selectAll("dot").data();
