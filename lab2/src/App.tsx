@@ -1,6 +1,7 @@
 import { Button, Col, Container, FormControl, InputGroup, Row } from "react-bootstrap";
 import CarouselComponent from "./Components/CarouselComponent";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CharacterCard from "./Components/CharacterCard";
 
 function App() {
   return (
@@ -21,6 +22,28 @@ function App() {
             <FormControl placeholder="Charachter traits (Comma seperated list)" />
             <Button variant="outline-secondary">Search</Button>
           </InputGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <CharacterCard />
+        </Col>
+        <Col>
+          <CharacterCard />
+        </Col>
+        <Col>
+          <CharacterCard />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <CharacterCard />
+        </Col>
+        <Col>
+          <CharacterCard />
+        </Col>
+        <Col>
+          <CharacterCard />
         </Col>
       </Row>
     </Container>
