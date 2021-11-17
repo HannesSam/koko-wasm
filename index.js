@@ -1,15 +1,16 @@
 async function plotExecutionTimes(what) {
-  data = [];
-  updateData(data);
-  timeoutObj = { timeoutID: undefined };
+  clearData(what);
 
+  data = [];
+  timeoutObj = { timeoutID: undefined };
   function loop(i) {
     if (i < 200) {
       timeoutObj.timeoutID = setTimeout(async () => {
         const iterations = Math.round(1 + i ** 3);
         const time = await measureCalculationTime(what, iterations);
-        data.push({ x: iterations, y: time });
-        updateData(data);
+        data.push({ x: iterations, y: time, id: iterations });
+        updateData(what, data);
+        //if (plopLoaded) plop.play();
         loop(i + 1);
       }, 100);
     } else {
@@ -91,10 +92,17 @@ function createPlot() {
     .text("ms");
 
   svg.append("path");
+  svg.append("g").classed("_javascript", true)
+  svg.append("g").classed("_go", true)
   //svg.selectAll("dot").data();
 }
 
-function updateData(data) {
+const colors = {
+  javascript: "#f7df1e",
+  go: "#00acd7"
+}
+
+function updateData(what, data) {
   let svg = d3.select("svg");
   let [x, y, xAxis, yAxis] = getAxes();
 
@@ -109,23 +117,35 @@ function updateData(data) {
     });
 
   // Append a circle at each point
-  let circle = svg.selectAll("circle").data(data);
+  let circle = svg
+    .selectAll("g._" + what)
+    .selectAll("circle" + what).data(data, d => d);
 
   const newCircles = circle
     .enter()
     .append("circle")
-    .style("fill", "#f9ab02")
+    .style("fill", colors[what])
     .attr("r", 0)
-    .attr("cx", function (d) {
+    .attr("cx", function (d, i) {
       return x(d.x);
     })
-    .attr("cy", function (d) {
+    .attr("cy", function (d, i) {
       return y(d.y);
     })
 
     .transition()
-    .duration(250)
+    .duration((d) => (Math.random() * 100 + 150))
     .attr("r", 1.5);
+}
 
-  //newCircles.merge(circle);
+function clearData(what) {
+  let svg = d3.select("svg");
+
+  svg
+    .selectAll("g._" + what)
+    .selectAll("circle")
+    .transition()
+    .duration(250)
+    .attr("r", 0)
+    .remove();
 }

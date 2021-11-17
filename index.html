@@ -57,11 +57,15 @@
     src="https://images.squarespace-cdn.com/content/v1/5d725bb5e71af8000106fe69/1592828789780-DBDZFBHO6T73IXR7I3ZL/IMG_3351.png" />
 
   <script>
+    const plop = new Audio("https://public.axelwickman.com/work/Omegapoint/OpKoKoH%C3%B6st2021/Plop.mp3");
+    let plopLoaded = false;
+    plop.addEventListener("canplaythrough", event => {
+      plopLoaded = true;
+    });
+
     window.onload = function () {
       loadGo();
-
       createPlot();
-
     };
 
     function disableAll() {
