@@ -77,10 +77,11 @@
     opacity: 0.3;
 }
 
-.wrapper .icon:hover{
-    opacity: 1.0;
+.wrapper .icon:hover.disabled {
+    opacity: 0.8;
     scale: 1.06;
 }
+
 
 .wrapper .javascript,
 .wrapper .javascript .tooltip,

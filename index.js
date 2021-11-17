@@ -1,14 +1,37 @@
-// Perform tests
+async function plotExecutionTimes(what) {
+  data = [];
+  updateData(data);
+  timeoutObj = { timeoutID: undefined };
+
+  function loop(i) {
+    if (i < 200) {
+      timeoutObj.timeoutID = setTimeout(async () => {
+        const iterations = Math.round(1 + i ** 3);
+        const time = await measureCalculationTime(what, iterations);
+        data.push({ x: iterations, y: time });
+        updateData(data);
+        loop(i + 1);
+      }, 100);
+    } else {
+      timeoutObj.timeoutID = undefined;
+    }
+  }
+
+  loop(0);
+
+  return timeoutObj;
+}
+
 async function measureCalculationTime(what, iterations) {
   f = getComputingFunction(what);
-  console.log("Measure " + what + " with " + iterations + " iterations...");
+  //console.log("Measure " + what + " with " + iterations + " iterations...");
 
   startTime = new Date();
   const pi_estimate = await f(iterations);
   endTime = new Date();
 
   const duration = endTime - startTime;
-  console.log("Took " + duration + " ms (pi ≈ " + pi_estimate + ")");
+  //console.log("Took " + duration + " ms (pi ≈ " + pi_estimate + ")");
   return duration;
 }
 

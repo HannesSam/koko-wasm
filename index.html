@@ -43,17 +43,17 @@
   <svg viewbox="0 0 500 500"></svg>
 
   <div class="wrapper" style="margin-top: 1%; display: flex; align-items: center; justify-content: center;">
-    <div class="icon javascript">
+    <div class="icon javascript disabled" onclick="press('javascript')">
       <div class="tooltip">JavaScript</div>
       <span>JS</span>
     </div>
-    <div class="icon go disabled">
-      <div class="tooltip">Golang</div>
+    <div class="icon go disabled" onclick="press('go')">
+      <div class=" tooltip">Golang</div>
       <span>Go</span>
     </div>
   </div>
 
-  <img style="width:15%;position: absolute;left: 1%;top: 5%;opacity: 80%;"
+  <img style="width:15%; position: absolute; left: 1%; top: 3%; opacity: 80%;"
     src="https://images.squarespace-cdn.com/content/v1/5d725bb5e71af8000106fe69/1592828789780-DBDZFBHO6T73IXR7I3ZL/IMG_3351.png" />
 
   <script>
@@ -61,22 +61,31 @@
       loadGo();
 
       createPlot();
-      data = [];
 
-      function loop(i) {
-        if (i < 200) {
-          setTimeout(async () => {
-            const iterations = Math.round(1 + i ** 3);
-            const time = await measureCalculationTime("Go", iterations);
-            data.push({ x: iterations, y: time });
-            updateData(data);
-            loop(i + 1);
-          }, 100);
-        }
-      }
-
-      loop(0);
     };
+
+    function disableAll() {
+      const elements = document.getElementsByClassName("icon");
+      for (const e of elements) {
+        e.classList.add("disabled");
+      }
+    }
+
+    let executionTimeout = { timeoutID: undefined };
+    async function press(what) {
+      //console.log(executionTimeout.timeoutID);
+      if (executionTimeout.timeoutID !== undefined) clearTimeout(executionTimeout.timeoutID);
+
+      const e = document.getElementsByClassName(what)[0];
+      if (e.classList.contains("disabled")) {
+        disableAll();
+        e.classList.remove("disabled")
+        executionTimeout = await plotExecutionTimes(what);
+      } else {
+        e.classList.add("disabled")
+      }
+    }
+
   </script>
 </body>
 
