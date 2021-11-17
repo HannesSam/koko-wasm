@@ -1,22 +1,22 @@
 // Perform tests
-function measureCalculationTime(what, iterations) {
+async function measureCalculationTime(what, iterations) {
   f = getComputingFunction(what);
   console.log("Measure " + what + " with " + iterations + " iterations...");
 
   startTime = new Date();
-  const pi_hat = f(iterations);
+  const pi_estimate = await f(iterations);
   endTime = new Date();
 
   const duration = endTime - startTime;
-  console.log("Took " + duration + " ms (pi ≈ " + pi_hat + ")");
+  console.log("Took " + duration + " ms (pi ≈ " + pi_estimate + ")");
   return duration;
 }
 
 function getComputingFunction(what) {
-  switch (what) {
-    case "JavaScript":
+  switch (what.toLowerCase()) {
+    case "javascript":
       return jsMonteCarloPi;
-    case "Go":
+    case "go":
       return goMonteCarloPi;
     default:
       throw new Error("Unknown computing function");

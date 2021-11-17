@@ -3,7 +3,12 @@
     <meta charset="utf-8" />
     <title>WebAssembly lab!</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+
     <script src="js_calls.js"></script>
+
+    <script src="wasm_exec_go.js"></script>
+    <script src="go_calls.js"></script>
+
     <script src="index.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,14 +42,16 @@
 
     <script>
       window.onload = function () {
+        loadGo();
+
         createPlot();
         data = [];
 
         function loop(i) {
           if (i < 40) {
-            setTimeout(() => {
+            setTimeout(async () => {
               const iterations = Math.round(1 + i ** 4);
-              const time = measureCalculationTime("JavaScript", iterations);
+              const time = await measureCalculationTime("Go", iterations);
               data.push({ x: iterations, y: time });
               updateData(data);
               loop(i + 1);
