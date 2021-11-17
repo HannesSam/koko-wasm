@@ -15,16 +15,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Heebo&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="cool_buttons.css" />
 
   <style>
     body {
+      height: 100%;
       width: 100%;
       margin: 0;
       font-family: "Heebo", sans-serif;
-      font-size: 0.5rem;
-      background-color: #130736;
+      font-size: 1.3vw;
       color: white;
       text-align: center;
+      place-items: center;
+      background: linear-gradient(175deg, #34236d, #130736);
     }
 
     svg {
@@ -36,8 +39,22 @@
 </head>
 
 <body>
-  <h1 style="margin-top: 10%">Monte Carlo Pi Estimation</h1>
+  <h1 style="padding-top: 3%; padding-bottom: 2%;"><b>Monte Carlo Pi Estimation</b></h1>
   <svg viewbox="0 0 500 500"></svg>
+
+  <div class="wrapper" style="margin-top: 1%; display: flex; align-items: center; justify-content: center;">
+    <div class="icon javascript">
+      <div class="tooltip">JavaScript</div>
+      <span>JS</span>
+    </div>
+    <div class="icon go disabled">
+      <div class="tooltip">Golang</div>
+      <span>Go</span>
+    </div>
+  </div>
+
+  <img style="width:15%;position: absolute;left: 1%;top: 5%;opacity: 80%;"
+    src="https://images.squarespace-cdn.com/content/v1/5d725bb5e71af8000106fe69/1592828789780-DBDZFBHO6T73IXR7I3ZL/IMG_3351.png" />
 
   <script>
     window.onload = function () {
