@@ -28,22 +28,20 @@ license that can be found in the LICENSE file.
 
 		const go = new Go();
 		let mod, inst;
+		let monteCarloPi;
 		WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
 			mod = result.module;
 			inst = result.instance;
 			document.getElementById("runButton").disabled = false;
+
+			let run = go.run(inst);
+			monteCarloPi = inst.exports.monteCarloPi;
 		}).catch((err) => {
 			console.error(err);
 		});
-
-		async function run() {
-			console.clear();
-			await go.run(inst);
-			inst = await WebAssembly.instantiate(mod, go.importObject); // reset instance
-		}
 	</script>
 
-	<button onClick="run();" id="runButton" disabled>Run</button>
+	<button onClick="console.log(monteCarloPi(500000));" id="runButton" disabled>Run</button>
 </body>
 
 </html>
