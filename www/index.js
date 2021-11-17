@@ -15,7 +15,9 @@ function measureCalculationTime(what, iterations) {
 function getComputingFunction(what) {
   switch (what) {
     case "JavaScript":
-      return monteCarloPi;
+      return jsMonteCarloPi;
+    case "Go":
+      return goMonteCarloPi;
     default:
       throw new Error("Unknown computing function");
   }

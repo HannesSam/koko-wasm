@@ -8,7 +8,7 @@ function randomNumber() {
   return x / max;
 }
 
-function monteCarloPi(iterations) {
+function jsMonteCarloPi(iterations) {
   let inside = 0;
   for (let i = 0; i < iterations; i++) {
     const x = randomNumber();
