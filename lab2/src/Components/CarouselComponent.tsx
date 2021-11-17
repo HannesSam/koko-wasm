@@ -10,7 +10,7 @@ export default function CarouselComponent() {
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>Are you gready?</h3>
+          <h3>Are you greedy?</h3>
           <p>Then maybe you're gollum</p>
         </Carousel.Caption>
       </Carousel.Item>
