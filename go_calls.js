@@ -14,6 +14,7 @@ function loadGo() {
     .then((result) => {
       goMod = result.module;
       goInst = result.instance;
+      go.run(goInst);
     })
     .catch((err) => {
       console.error(err);
@@ -23,5 +24,5 @@ function loadGo() {
 }
 
 async function goMonteCarloPi(iterations) {
-  await go.run(goInst); // TODO: don't call main method and pass in iterations
+  return goInst.exports.monteCarloPi(iterations);
 }
