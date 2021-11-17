@@ -1,9 +1,27 @@
+import { useMemo } from "react";
 import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import CharacterCard from "./CharacterCard";
 
+import JSZip from "jszip";
+import JSZipUtils from "jszip-utils";
+
 export default function SearchContainer() {
-  //State här som håller koll på resultatet från sökningen
-  //Kanske även kalla på unzip här?
+  // Get data file './fictional-character-dataset.zip' as blob
+  useMemo(async () => {
+    JSZipUtils.getBinaryContent(
+      "/fictional-character-dataset.zip",
+      function (err, data) {
+        if (err) {
+          throw err; // or handle err
+        }
+
+        JSZip.loadAsync(data).then(async function () {
+          const zip = await JSZip.loadAsync(data);
+          console.log(zip)
+        });
+      }
+    );
+  }, []);
 
   return (
     <>
