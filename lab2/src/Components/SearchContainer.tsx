@@ -81,7 +81,7 @@ export default function SearchContainer() {
 
   return (
     <>
-      <img id="messingUp" alt="u messed up"
+      <img id="messingUp"
         style={{
           position: "fixed",
           top: "50%",
