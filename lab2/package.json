@@ -22,7 +22,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "asbuild:untouched": "asc assembly/index.ts --target debug",
+    "asbuild:optimized": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
+    "build": "react-scripts build && npm run asbuild",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
