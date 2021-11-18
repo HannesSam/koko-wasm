@@ -1,0 +1,41 @@
+Individual infobox test
+[Source]
+Clean template
+{{Individual infobox
+|image=
+|name=
+|born=
+|died=
+|blood=
+|marital=
+|alias=
+|title=
+|signature=
+|species=
+|gender=
+|height=
+|hair=
+|eyes=
+|skin=
+|family=
+|firstancestor=
+|father=
+|mother=
+|siblings=
+|spouse=
+|children=
+|childreninlaw=
+|grandchildren=
+|grandparents=
+|auntsanduncles=
+|siblingsinlaw=
+|niecesandnephews=
+|cousins=
+|animagus=
+|boggart=
+|wand=
+|patronus=
+|job=
+|house=
+|loyalty=
+}}
