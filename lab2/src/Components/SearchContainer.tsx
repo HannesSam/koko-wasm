@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import CharacterCard from "./CharacterCard";
 import { SearchTS } from "../SearchTS";
@@ -9,14 +9,20 @@ import JSZipUtils from "jszip-utils";
 export default function SearchContainer() {
   // Create persistent SearchTS instance
   const searchImplementation = useMemo(() => new SearchTS(), []);
+  const [messingUp, setMessingUp] = useState(false);
 
   // Get data file './fictional-character-dataset.zip' as blob
   useMemo(async () => {
-    const zip: any = await getAndUnzip("/fictional-character-dataset.zip");
-    const data = await convertZipToObject(zip);
-    console.log("Downloaded data");
-    searchImplementation.loadData(data);
-    console.log("Loaded data");
+    try {
+      const zip: any = await getAndUnzip("/fictional-character-dataset.zip");
+      const data = await convertZipToObject(zip);
+      console.log("Downloaded data");
+      searchImplementation.loadData(data);
+      console.log("Loaded data");
+    } catch (error) {
+      messUp();
+      console.error(error);
+    }
   }, [searchImplementation]);
 
   function getAndUnzip(url: string) {
@@ -42,6 +48,20 @@ export default function SearchContainer() {
     return obj;
   }
 
+  const image = new Image();
+  image.src = "https://public.axelwickman.com/work/Omegapoint/gif.gif";
+  function messUp() {
+    setMessingUp(true);
+    const messingUpElement = document.getElementById("messingUp") as HTMLImageElement;
+    messingUpElement.style.display = "";
+    messingUpElement.src = image.src;
+    setTimeout(() => {
+      messingUpElement.style.animation = "none";
+      messingUpElement.src = "";
+      setMessingUp(false);
+    }, 3000)
+  }
+
   function handleSearch() {
     const queries = (document.getElementById("search") as HTMLInputElement).value;
     if (queries.length === 0) return [];
@@ -50,13 +70,27 @@ export default function SearchContainer() {
     queriesArray = queriesArray.map((query) => query.trim());
 
     console.log("Queries: " + queries);
-    const results = searchImplementation.search(queriesArray);
-    console.log(results);
+    try {
+      const results = searchImplementation.search(queriesArray);
+      console.log(results);
+    } catch (error) {
+      messUp();
+      console.error(error);
+    }
   }
-
 
   return (
     <>
+      <img id="messingUp" alt="u messed up"
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: "1",
+          display: "none"
+        }}
+      />
       <Row>
         <Col>
           <InputGroup className="mb-3">
