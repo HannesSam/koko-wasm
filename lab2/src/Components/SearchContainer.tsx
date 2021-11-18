@@ -5,6 +5,7 @@ import { SearchTS } from "../SearchImplementations/SearchTS";
 
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
+import { SearchASCWrapper } from "../SearchImplementations/SearchASCWrapper";
 
 export default function SearchContainer() {
   // Create persistent SearchTS instance
