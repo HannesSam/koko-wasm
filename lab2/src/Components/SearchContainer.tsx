@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import CharacterCard from "./CharacterCard";
-import { SearchTS } from "../SearchTS";
+import { SearchTS } from "../SearchImplementations/SearchTS";
 
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
@@ -9,7 +9,6 @@ import JSZipUtils from "jszip-utils";
 export default function SearchContainer() {
   // Create persistent SearchTS instance
   const searchImplementation = useMemo(() => new SearchTS(), []);
-  const [messingUp, setMessingUp] = useState(false);
 
   // Get data file './fictional-character-dataset.zip' as blob
   useMemo(async () => {
@@ -51,14 +50,14 @@ export default function SearchContainer() {
   const image = new Image();
   image.src = "https://public.axelwickman.com/work/Omegapoint/gif.gif";
   function messUp() {
-    setMessingUp(true);
     const messingUpElement = document.getElementById("messingUp") as HTMLImageElement;
     messingUpElement.style.display = "";
+    messingUpElement.style.borderStyle = "solid";
     messingUpElement.src = image.src;
     setTimeout(() => {
       messingUpElement.style.animation = "none";
+      messingUpElement.style.borderStyle = "none";
       messingUpElement.src = "";
-      setMessingUp(false);
     }, 3000)
   }
 
@@ -87,8 +86,11 @@ export default function SearchContainer() {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          zIndex: "1",
-          display: "none"
+          zIndex: "1000000",
+          display: "none",
+          borderColor: "red",
+          borderWidth: "5px",
+          borderStyle: "solid"
         }}
       />
       <Row>

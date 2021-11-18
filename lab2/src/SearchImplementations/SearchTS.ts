@@ -27,6 +27,7 @@ export class SearchTS implements SearchInterface {
     }
 
     search(query: Array<string>): string[] {
+        throw new Error("Method not implemented.");
         const result: {key:string, count:number}[] = [];
         this.progress = 0;
         for (const [key, value] of Object.entries(this.data)) {
