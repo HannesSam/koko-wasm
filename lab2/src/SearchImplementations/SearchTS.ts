@@ -2,7 +2,6 @@ import { SearchInterface } from "./SearchInterface";
 
 export class SearchTS implements SearchInterface {
     private data: Record<string, string> = {};
-    private progress: number = 0;
 
     constructor(){
         console.log("Instantiate SearchTS");
@@ -10,10 +9,6 @@ export class SearchTS implements SearchInterface {
 
     loadData(data: Record<string, string>): void {
         this.data = data; 
-    }
-
-    getProgress(): number {
-        return this.progress/Object.keys(this.data).length;
     }
 
     findNumberOfOccurences(text: string, query: string): number {
@@ -27,20 +22,16 @@ export class SearchTS implements SearchInterface {
     }
 
     search(query: Array<string>): string[] {
-        throw new Error("Method not implemented.");
         const result: {key:string, count:number}[] = [];
-        this.progress = 0;
         for (const [key, value] of Object.entries(this.data)) {
             let count = 0;
             for (const word of query) {
                 count += this.findNumberOfOccurences(value, word)
-
             }
             count /= value.length;
             if (count > 0) {
                 result.push({key, count});
             }
-            this.progress++;
         }
 
         // Sort result by count

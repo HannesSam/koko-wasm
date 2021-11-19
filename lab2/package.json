@@ -22,8 +22,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "asbuild:untouched": "asc src/SearchImplementations/search.as --target debug --extension as",
-    "asbuild:optimized": "asc src/SearchImplementations/search.as --target release --extension as",
+    "asbuild:untouched": "asc src/SearchImplementations/search.as --target debug --extension as --exportRuntime",
+    "asbuild:optimized": "asc src/SearchImplementations/search.as --target release --extension as --exportRuntime",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
     "build": "react-scripts build && npm run asbuild",
     "test": "react-scripts test",

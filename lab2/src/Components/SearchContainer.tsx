@@ -5,20 +5,21 @@ import { SearchTS } from "../SearchImplementations/SearchTS";
 
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
-import { SearchASCWrapper } from "../SearchImplementations/SearchASCWrapper";
+import { SearchASWrapper } from "../SearchImplementations/SearchASWrapper";
 
 export default function SearchContainer() {
-  // Create persistent SearchTS instance
+  // Create persistent SearchImplementation instance (type SearchTS or SearchASWrapper)
   const searchImplementation = useMemo(() => new SearchTS(), []);
 
   // Get data file './fictional-character-dataset.zip' as blob
   useMemo(async () => {
+    const zip: any = await getAndUnzip("/fictional-character-dataset.zip");
+    const data = await convertZipToObject(zip);
+    console.log("Downloaded data");
     try {
-      const zip: any = await getAndUnzip("/fictional-character-dataset.zip");
-      const data = await convertZipToObject(zip);
-      console.log("Downloaded data");
+      console.time("LoadData")
       searchImplementation.loadData(data);
-      console.log("Loaded data");
+      console.timeEnd("LoadData")
     } catch (error) {
       messUp();
       console.error(error);
@@ -71,7 +72,9 @@ export default function SearchContainer() {
 
     console.log("Queries: " + queries);
     try {
+      console.time("Search")
       const results = searchImplementation.search(queriesArray);
+      console.timeEnd("Search")
       console.log(results);
     } catch (error) {
       messUp();
@@ -97,7 +100,7 @@ export default function SearchContainer() {
       <Row>
         <Col>
           <InputGroup className="mb-3">
-            <FormControl placeholder="Charachter traits (Comma seperated list)" id="search"
+            <FormControl placeholder="Character traits (comma seperated list)" id="search"
               onKeyDown={(e: any) => {
                 if (e.key === "Enter")
                   handleSearch();
