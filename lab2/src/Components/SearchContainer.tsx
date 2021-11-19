@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import CharacterCard from "./CharacterCard";
 import { SearchTS } from "../SearchImplementations/SearchTS";
@@ -10,6 +10,8 @@ import { SearchASCWrapper } from "../SearchImplementations/SearchASCWrapper";
 export default function SearchContainer() {
   // Create persistent SearchTS instance
   const searchImplementation = useMemo(() => new SearchTS(), []);
+
+  const [searchResult, setSearchResult] = useState([""]);
 
   // Get data file './fictional-character-dataset.zip' as blob
   useMemo(async () => {
@@ -27,23 +29,20 @@ export default function SearchContainer() {
 
   function getAndUnzip(url: string) {
     return new Promise((resolve, reject) => {
-      JSZipUtils.getBinaryContent(
-        url,
-        function (err, data) {
-          if (err) reject(err);
-          JSZip.loadAsync(data).then(async function () {
-            const zip = await JSZip.loadAsync(data);
-            resolve(zip);
-          });
-        }
-      );
-    })
+      JSZipUtils.getBinaryContent(url, function (err, data) {
+        if (err) reject(err);
+        JSZip.loadAsync(data).then(async function () {
+          const zip = await JSZip.loadAsync(data);
+          resolve(zip);
+        });
+      });
+    });
   }
 
   async function convertZipToObject(zip: any): Promise<Record<string, string>> {
     let obj = {};
     for (let [name, file] of Object.entries(zip.files)) {
-      obj[name] = await (file as any).async("string")
+      obj[name] = await (file as any).async("string");
     }
     return obj;
   }
@@ -59,7 +58,7 @@ export default function SearchContainer() {
       messingUpElement.style.animation = "none";
       messingUpElement.style.borderStyle = "none";
       messingUpElement.src = "";
-    }, 3000)
+    }, 3000);
   }
 
   function handleSearch() {
@@ -71,8 +70,7 @@ export default function SearchContainer() {
 
     console.log("Queries: " + queries);
     try {
-      const results = searchImplementation.search(queriesArray);
-      console.log(results);
+      setSearchResult(searchImplementation.search(queriesArray));
     } catch (error) {
       messUp();
       console.error(error);
@@ -81,7 +79,8 @@ export default function SearchContainer() {
 
   return (
     <>
-      <img id="messingUp"
+      <img
+        id="messingUp"
         style={{
           position: "fixed",
           top: "50%",
@@ -91,47 +90,51 @@ export default function SearchContainer() {
           display: "none",
           borderColor: "red",
           borderWidth: "5px",
-          borderStyle: "solid"
+          borderStyle: "solid",
         }}
       />
       <Row>
         <Col>
           <InputGroup className="mb-3">
-            <FormControl placeholder="Charachter traits (Comma seperated list)" id="search"
+            <FormControl
+              placeholder="Charachter traits (Comma seperated list)"
+              id="search"
               onKeyDown={(e: any) => {
-                if (e.key === "Enter")
-                  handleSearch();
-              }
-              } />
-            <Button variant="outline-secondary" onClick={
-              () => {
-                console.log("Click")
-                handleSearch()
-              }
-            }>Search</Button>
+                if (e.key === "Enter") handleSearch();
+              }}
+            />
+            <Button
+              variant="outline-secondary"
+              onClick={() => {
+                console.log("Click");
+                handleSearch();
+              }}
+            >
+              Search
+            </Button>
           </InputGroup>
         </Col>
       </Row>
       <Row>
         <Col>
-          <CharacterCard />
+          <CharacterCard character={searchResult[0]} />
         </Col>
         <Col>
-          <CharacterCard />
+          <CharacterCard character={searchResult[1]} />
         </Col>
         <Col>
-          <CharacterCard />
+          <CharacterCard character={searchResult[2]} />
         </Col>
       </Row>
       <Row>
         <Col>
-          <CharacterCard />
+          <CharacterCard character={searchResult[3]} />
         </Col>
         <Col>
-          <CharacterCard />
+          <CharacterCard character={searchResult[4]} />
         </Col>
         <Col>
-          <CharacterCard />
+          <CharacterCard character={searchResult[5]} />
         </Col>
       </Row>
     </>
