@@ -8,3 +8,7 @@
 4. Run `tinygo build -o WASMs/go.wasm -target wasm ./main.go`
 5. Place `go.wasm` under the WASMs-folder
 6. Run `go run server.go`
+
+
+## For AssemblyScript:
+1. Run `npm init`
