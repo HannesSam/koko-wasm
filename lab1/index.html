@@ -1,0 +1,96 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>WebAssembly lab!</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <script src="js_calls.js"></script>
+
+  <script src="wasm_exec_go.js"></script>
+  <script src="go_calls.js"></script>
+
+  <script src="index.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="cool_buttons.css" />
+
+  <style>
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      font-family: "Heebo", sans-serif;
+      font-size: 1.3vw;
+      color: white;
+      text-align: center;
+      place-items: center;
+      background: linear-gradient(175deg, #34236d, #130736);
+    }
+
+    svg {
+      margin: auto;
+      width: 60%;
+      height: 60%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="padding-top: 3%; padding-bottom: 2%;"><b>Monte Carlo Pi Estimation</b></h1>
+  <svg viewbox="0 0 500 500"></svg>
+
+  <div class="wrapper" style="margin-top: 1%; display: flex; align-items: center; justify-content: center;">
+    <div class="icon javascript disabled" onclick="press('javascript')">
+      <div class="tooltip">JavaScript</div>
+      <span>JS</span>
+    </div>
+    <div class="icon go disabled" onclick="press('go')">
+      <div class=" tooltip">Golang</div>
+      <span>Go</span>
+    </div>
+  </div>
+
+  <img style="width:15%; position: absolute; left: 1%; top: 3%; opacity: 80%;"
+    src="https://images.squarespace-cdn.com/content/v1/5d725bb5e71af8000106fe69/1592828789780-DBDZFBHO6T73IXR7I3ZL/IMG_3351.png" />
+
+  <script>
+    const plop = new Audio("https://public.axelwickman.com/work/Omegapoint/OpKoKoH%C3%B6st2021/Plop.mp3");
+    let plopLoaded = false;
+    plop.addEventListener("canplaythrough", event => {
+      plopLoaded = true;
+    });
+
+    window.onload = function () {
+      loadGo();
+      createPlot();
+    };
+
+    function disableAll() {
+      const elements = document.getElementsByClassName("icon");
+      for (const e of elements) {
+        e.classList.add("disabled");
+      }
+    }
+
+    let executionTimeout = { timeoutID: undefined };
+    async function press(what) {
+      //console.log(executionTimeout.timeoutID);
+      if (executionTimeout.timeoutID !== undefined) clearTimeout(executionTimeout.timeoutID);
+
+      const e = document.getElementsByClassName(what)[0];
+      if (e.classList.contains("disabled")) {
+        disableAll();
+        e.classList.remove("disabled")
+        executionTimeout = await plotExecutionTimes(what);
+      } else {
+        e.classList.add("disabled")
+      }
+    }
+
+  </script>
+</body>
+
+</html>
