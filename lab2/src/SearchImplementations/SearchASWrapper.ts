@@ -24,26 +24,27 @@ export class SearchASWrapper implements SearchInterface {
         );
         k.push(key);
       }
-      //console.log("count", this.impl.count(), this.impl.nulls());
     }
 
-    search(query: string[]): string[] {
-      const queries_ptrs = query.map((s) => 
-        this.impl.__pin(this.impl.__newString(s.toLowerCase())) 
-      );
+    search(queries: string[]): string[] {
+      queries = queries.map(q => q.toLowerCase());
 
-      for (let ptr of queries_ptrs){
-        this.impl.addQuery(ptr);
-      }
+      // TODO: Convert earch query in queies to a pointer (a number 
+      // representing the variables location in memory), and send it
+      // to the wasm function.
+      // Hints:
+      // use the this.impl.__newString function.
+      // use the this.impl.__pin function to make sure the memory
+      // is not garbage collected.
 
-      const arrayPtr = this.impl.search();
-      const results = this.impl.__getArray(arrayPtr);
+      // TODO: call the search function
+      // TODO: convert the resulting pointer to regular array of
+      //       pointers using: this.impl.__getArray
+      // TODO: Convert each pointer to string
       
-      for (let ptr of queries_ptrs){
-        this.impl.__unpin(ptr);
-      }
+      // TODO: call this.impl.__unpin on all the query pointers.
 
-      return results.map((e: number) => this.impl.__getString(e));
+      return [];
     }
 
 

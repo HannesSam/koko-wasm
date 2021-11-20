@@ -28,7 +28,9 @@ export class SearchTS implements SearchInterface {
             for (const word of query) {
                 count += this.findNumberOfOccurences(value, word)
             }
-            //count /= value.length;
+            
+            count /= value.length;
+            
             if (count > 0) {
                 result.push({key, count});
             }

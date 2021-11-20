@@ -18,6 +18,12 @@ Let's implement it using AssemblyScript to see if we get any performance gains!
 5. The **SearchASWrapper**-class contains glue code for calling WASM written in AssemlyScript (.as file ending). This AssemblyScript is implemented in the file **search.as**. Both **SearchASWrapper** and **search.as** are unfinished. Fix the TODOs (see **SearchTS.ts** from inspiration).
 6. To test the code you have to host the app (`npm start`), and compile the AS code to WASM: `npm run asbuild`. Everytime you run this command the webpage should automatically reload. 
 
+AssemblyScript documentation:
+https://www.assemblyscript.org/stdlib/builtins.html
+
+AssemblyScript loader documentation:
+https://www.assemblyscript.org/loader.html
+
 
 ### Datasets used, with prefixes:
 Harry Potter - hp\

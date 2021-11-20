@@ -20,12 +20,14 @@ export function addQuery(query: string) : void {
 }
 
 export function search(): Array<string> {
-    // TODO: Implement the rest of the function§
+    // TODO: Implement the rest of the function
     // Hints:
     // for ... of loops dont exist. Use indexing instead. 
-    // 
+    // You're gonna have to check that the strings are not
+    //   null (which they have to be due to technical reasons).
     let result: Count[] = [];
 
+    // Could use arrays directly, but this is slightly faster
     const staticKeys = StaticArray.fromArray(keys);
     const staticValues = StaticArray.fromArray(values);
     const staticQueries = StaticArray.fromArray(queries);
@@ -34,21 +36,14 @@ export function search(): Array<string> {
         const key = unchecked(staticKeys[i]);
         const value = unchecked(staticValues[i]);
 
-        if (value === null)
-            continue;
+        if (value === null) continue;
         
         let count : f32 = 0.0;
-        for (let j = 0; j < staticQueries.length; j++){
-            const query = unchecked(staticQueries[j]);
-            if (query !== null){
-                for (let k = 0; k < value.length-query.length; k++) {
-                    if (unchecked(value.substr(k, query.length)) == query) {
-                        count += 1.0;
-                    }
-                }
-            }
-        }
-        //c ount /= value.length as f32;
+
+        // TODO: count how many times search queries appears in value
+        // Hint: don't try to use multiple functions - it don't work.
+
+        count /= value.length as f32;
         
         if (0 < count && key !== null) {
             result.push({key, count});
@@ -64,5 +59,5 @@ export function search(): Array<string> {
     // Return only keys
     return result
         .filter(r => r !== null)
-        .map<string>(r => r.count.toString() + " " + r.key);
+        .map<string>(r => r.key);
 }

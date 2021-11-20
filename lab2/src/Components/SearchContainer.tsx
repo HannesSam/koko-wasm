@@ -9,7 +9,7 @@ import { SearchASWrapper } from "../SearchImplementations/SearchASWrapper";
 
 export default function SearchContainer() {
   // Create persistent SearchImplementation instance (type SearchTS or SearchASWrapper)
-  const searchImplementation = useMemo(() => new SearchASWrapper(), []);
+  const searchImplementation = useMemo(() => new SearchTS(), []);
 
   const [searchResult, setSearchResult] = useState([""]);
 
