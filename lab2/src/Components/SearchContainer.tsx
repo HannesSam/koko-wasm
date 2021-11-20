@@ -9,7 +9,7 @@ import { SearchASWrapper } from "../SearchImplementations/SearchASWrapper";
 
 export default function SearchContainer() {
   // Create persistent SearchImplementation instance (type SearchTS or SearchASWrapper)
-  const searchImplementation = useMemo(() => new SearchTS(), []);
+  const searchImplementation = useMemo(() => new SearchASWrapper(), []);
 
   const [searchResult, setSearchResult] = useState([""]);
 
@@ -26,6 +26,8 @@ export default function SearchContainer() {
       messUp();
       console.error(error);
     }
+
+    enableSearch();
   }, [searchImplementation]);
 
   function getAndUnzip(url: string) {
@@ -60,6 +62,13 @@ export default function SearchContainer() {
       messingUpElement.style.borderStyle = "none";
       messingUpElement.src = "";
     }, 3000);
+  }
+
+  function enableSearch() {
+    const search = document.getElementById("search") as HTMLInputElement;
+    search.removeAttribute("disabled");
+    const searchButton = document.getElementById("searchButton") as HTMLInputElement;
+    searchButton.removeAttribute("disabled");
   }
 
   function handleSearch() {
@@ -100,7 +109,7 @@ export default function SearchContainer() {
       <Row>
         <Col>
           <InputGroup className="mb-3">
-            <FormControl
+            <FormControl disabled
               placeholder="Charachter traits (Comma seperated list)"
               id="search"
               onKeyDown={(e: any) => {
@@ -108,6 +117,8 @@ export default function SearchContainer() {
               }}
             />
             <Button
+              disabled
+              id="searchButton"
               variant="outline-secondary"
               onClick={() => {
                 console.log("Click");

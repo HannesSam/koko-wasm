@@ -8,7 +8,7 @@ export class SearchASWrapper implements SearchInterface {
     constructor(){
         console.log("Instantiate SearchASWrapper");
         loader.instantiate(
-            fetch("wasm/search_debug.wasm"),
+            fetch("wasm/search.wasm"),
           ).then((result) => {
             this.impl = result.exports;
           })

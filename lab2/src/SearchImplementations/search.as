@@ -12,7 +12,6 @@ export function loadEntry(key: string, value: string) : void {
 export function addQuery(query: string) : void {
    queries.push(query);
  }
- 
 
 // Fun fact: this is basically a C-struct
 @unmanaged class Count {
@@ -21,27 +20,35 @@ export function addQuery(query: string) : void {
 }
 
 export function search(): Array<string> {
-    // Hint: use for i-loop
+    // TODO: Implement the rest of the function§
+    // Hints:
+    // for ... of loops dont exist. Use indexing instead. 
+    // 
     let result: Count[] = [];
-    for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        const value = values[i];
+
+    const staticKeys = StaticArray.fromArray(keys);
+    const staticValues = StaticArray.fromArray(values);
+    const staticQueries = StaticArray.fromArray(queries);
+
+    for (let i = 0; i < staticKeys.length; i++) {
+        const key = unchecked(staticKeys[i]);
+        const value = unchecked(staticValues[i]);
 
         if (value === null)
             continue;
         
         let count : f32 = 0.0;
-        for (let j = 0; j < queries.length; j++){
-            const query = queries[j];
+        for (let j = 0; j < staticQueries.length; j++){
+            const query = unchecked(staticQueries[j]);
             if (query !== null){
-                for (let k = 0; k < query.length; k++) {
-                    if (value.substr(k, query.length) == query) {
+                for (let k = 0; k < value.length-query.length; k++) {
+                    if (unchecked(value.substr(k, query.length)) == query) {
                         count += 1.0;
                     }
                 }
             }
         }
-        count /= value.length as f32;
+        //c ount /= value.length as f32;
         
         if (0 < count && key !== null) {
             result.push({key, count});
@@ -57,5 +64,5 @@ export function search(): Array<string> {
     // Return only keys
     return result
         .filter(r => r !== null)
-        .map<string>(r => r.key);
+        .map<string>(r => r.count.toString() + " " + r.key);
 }

@@ -13,7 +13,7 @@ export class SearchTS implements SearchInterface {
 
     findNumberOfOccurences(text: string, query: string): number {
         let count = 0;
-        for (let i = 0; i < text.length; i++) {
+        for (let i = 0; i < text.length-query.length; i++) {
             if (text.substr(i, query.length) === query) {
                 count++;
             }
@@ -28,14 +28,14 @@ export class SearchTS implements SearchInterface {
             for (const word of query) {
                 count += this.findNumberOfOccurences(value, word)
             }
-            count /= value.length;
+            //count /= value.length;
             if (count > 0) {
                 result.push({key, count});
             }
         }
 
         // Sort result by count
-        result.sort((a, b) => b.count - a.count);
+        result.sort((a, b) => a.count < b.count ? 1 : -1);
 
         // Return only keys
         return result.map(r => r.key);        
