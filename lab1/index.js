@@ -25,14 +25,14 @@ async function plotExecutionTimes(what) {
 
 async function measureCalculationTime(what, iterations) {
   f = getComputingFunction(what);
-  //console.log("Measure " + what + " with " + iterations + " iterations...");
+  console.log("Measure " + what + " with " + iterations + " iterations...");
 
   startTime = new Date();
   const pi_estimate = await f(iterations);
   endTime = new Date();
 
   const duration = endTime - startTime;
-  //console.log("Took " + duration + " ms (pi ≈ " + pi_estimate + ")");
+  console.log("Took " + duration + " ms (pi ≈ " + pi_estimate + ")");
   return duration;
 }
 
@@ -42,6 +42,8 @@ function getComputingFunction(what) {
       return jsMonteCarloPi;
     case "go":
       return goMonteCarloPi;
+    case "as":
+      return asMonteCarloPi;
     default:
       throw new Error("Unknown computing function");
   }
@@ -99,7 +101,8 @@ function createPlot() {
 
 const colors = {
   javascript: "#f7df1e",
-  go: "#00acd7"
+  go: "#00acd7",
+  as: "#c03285"
 }
 
 function updateData(what, data) {

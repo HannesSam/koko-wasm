@@ -94,3 +94,9 @@
 .wrapper .go .tooltip::before {
   background-color: #00acd7;
 }
+
+.wrapper .as,
+.wrapper .as .tooltip,
+.wrapper .as .tooltip::before {
+  background-color: #c03285;
+}

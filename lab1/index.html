@@ -5,10 +5,10 @@
   <title>WebAssembly lab!</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
-  <script src="js_calls.js"></script>
-
+  <script src="calculate_pi.js"></script>
   <script src="wasm_exec_go.js"></script>
   <script src="go_calls.js"></script>
+  <script src="as_calls.js"></script>
 
   <script src="index.js"></script>
 
@@ -48,8 +48,12 @@
       <span>JS</span>
     </div>
     <div class="icon go disabled" onclick="press('go')">
-      <div class=" tooltip">Golang</div>
+      <div class="tooltip">Golang</div>
       <span>Go</span>
+    </div>
+    <div class="icon as disabled" onclick="press('as')">
+      <div class="tooltip">AssemblyScript</div>
+      <span>As</span>
     </div>
   </div>
 
@@ -57,13 +61,8 @@
     src="https://images.squarespace-cdn.com/content/v1/5d725bb5e71af8000106fe69/1592828789780-DBDZFBHO6T73IXR7I3ZL/IMG_3351.png" />
 
   <script>
-    const plop = new Audio("https://public.axelwickman.com/work/Omegapoint/OpKoKoH%C3%B6st2021/Plop.mp3");
-    let plopLoaded = false;
-    plop.addEventListener("canplaythrough", event => {
-      plopLoaded = true;
-    });
-
     window.onload = function () {
+      loadAs();
       loadGo();
       createPlot();
     };

@@ -1,0 +1,18 @@
+{
+  "name": "lab1",
+  "version": "1.0.0",
+  "description": "## For GO:",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server .",
+    "asbuild": "asc calculate_pi.as -o WASMs/as.wasm --extension as",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "as-date": "^0.1.3",
+    "assemblyscript": "^0.19.20",
+    "http-server": "^14.0.0"
+  }
+}
